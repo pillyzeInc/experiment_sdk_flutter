@@ -41,8 +41,9 @@ class LocalStorage {
 
     for (String key in keys) {
       dynamic value = prefs.get(key);
-
-      newMap[key] = ExperimentVariant.fromMap(jsonDecode(value));
+      if (value is String) {
+        newMap[key] = ExperimentVariant.fromMap(jsonDecode(value));
+      }
     }
 
     map = newMap;
