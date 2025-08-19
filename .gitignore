@@ -28,3 +28,14 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
+.pub-cache/
+.pub/
+generated_plugin_registrant.dart
+
+# Flutter plugins auto-generated
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# FVM Version Cache
+.fvm/
+.fvmrc

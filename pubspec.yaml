@@ -1,21 +1,20 @@
 name: experiment_sdk_flutter
-description: Experiment SDK for Flutter powered by ProductMinds. Amplitude Experiment is a tool to manage and orchestrate AB testing and feature flagging. 
+description: Experiment SDK for Flutter powered by ProductMinds. Amplitude Experiment is a tool to manage and orchestrate AB testing and feature flagging.
 version: 1.4.1
 homepage: https://github.com/productminds/experiment_sdk_flutter
 
 environment:
-  sdk: ">=2.19.1 <4.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
-  amplitude_flutter: ^4.3.2
+  amplitude_flutter: 4.3.3
+
   flutter:
     sdk: flutter
-  http: ^1.4.0
-  shared_preferences: ^2.5.3
+  http: 1.5.0
+  shared_preferences: 2.5.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
-flutter:
+  flutter_lints: 5.0.0
