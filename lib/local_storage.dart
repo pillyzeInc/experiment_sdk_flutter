@@ -54,12 +54,21 @@ class LocalStorage {
     final prefs = await SharedPreferences.getInstance();
 
     final keys = prefs.getKeys();
+    for (final k in prefs.getKeys()) {
+      final v = prefs.get(k);
+      debugPrint('flutter experiment: $k  -> ${v.runtimeType}');
+    }
+
     Map<String, ExperimentVariant> newMap = {};
 
     for (String key in keys) {
       dynamic value = prefs.get(key);
       if (value is String) {
-        newMap[key] = ExperimentVariant.fromMap(jsonDecode(value));
+        try {
+          newMap[key] = ExperimentVariant.fromMap(jsonDecode(value));
+        } catch (e) {
+          debugPrint("Invalid JSON for key $key: $e");
+        }
       }
     }
 
