@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:experiment_sdk_flutter/types/experiment_config.dart';
+import 'package:experiment_sdk_flutter/types/experiment_expose_tracking_context.dart';
 import 'package:experiment_sdk_flutter/types/experiment_exposure_tracking_provider.dart';
 import 'package:experiment_sdk_flutter/types/experiment_variant.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,6 +22,12 @@ class MockedTracker implements ExperimentExposureTrackingProvider {
     // ↓ mock an result to exposure to ensure that is called
     result = 0;
   }
+
+  @override
+  Future<ExposureTrackingContext> getContext(String instanceName) async {
+    // TODO: implement getContext
+    return ExposureTrackingContext();
+  }
 }
 
 void main() {
@@ -35,59 +42,61 @@ void main() {
   test('Should throw error if called with wrong apikey', () {
     final experiment = Experiment.initialize(apiKey: '');
 
-    expect(experiment.fetch(userId: 'testing'),
+    expect(experiment.fetch(deviceId: 'testing'),
         throwsA(const TypeMatcher<Exception>()));
   });
 
   test('Should succesfull fetch with a valid apiKey', () async {
     final experiment = Experiment.initialize(
-        apiKey: 'client-SyuVa4OF1vMBD5F59JMRwcZJutII4gZ2');
+        apiKey: 'client-TgXx6plnArNPL2ck4sKc6QtAJ8lbu8nQ');
 
-    expect(experiment.fetch(userId: 'testing'), completion(null));
+    await experiment.fetch(deviceId: 'testing');
+
+    expect(experiment.fetch(deviceId: 'testing'), completion(null));
   });
 
   test('Should has one variant', () async {
     final experiment = Experiment.initialize(
-        apiKey: 'client-SyuVa4OF1vMBD5F59JMRwcZJutII4gZ2');
+        apiKey: 'client-TgXx6plnArNPL2ck4sKc6QtAJ8lbu8nQ');
 
-    await experiment.fetch(userId: 'testing');
+    await experiment.fetch(deviceId: 'testing');
 
-    expect(experiment.variant('testing-sdk')?.value, 'control');
+    expect(experiment.variant('flutter-sdk-demo')?.value, isNotNull);
   });
 
   test('Should successfuly call track method inside tracker', () async {
     final mocked = MockedTracker();
 
     final experiment = Experiment.initialize(
-        apiKey: 'client-SyuVa4OF1vMBD5F59JMRwcZJutII4gZ2',
+        apiKey: 'client-TgXx6plnArNPL2ck4sKc6QtAJ8lbu8nQ',
         config: ExperimentConfig(
             automaticExposureTracking: true, exposureTrackingProvider: mocked));
 
-    await experiment.fetch(userId: 'testing');
-    experiment.variant('testing-sdk');
-    experiment.exposure('testing-sdk');
+    await experiment.fetch(deviceId: 'testing');
+    experiment.variant('flutter-sdk-demo');
+    experiment.exposure('flutter-sdk-demo');
 
     expect(mocked.result, 0);
   });
 
   test('Should return a map with variant on all method', () async {
     final experiment = Experiment.initialize(
-        apiKey: 'client-SyuVa4OF1vMBD5F59JMRwcZJutII4gZ2');
+        apiKey: 'client-TgXx6plnArNPL2ck4sKc6QtAJ8lbu8nQ');
 
-    await experiment.fetch(userId: 'testing');
+    await experiment.fetch(deviceId: 'testing');
     final all = experiment.all();
 
-    expect(all['testing-sdk']!.value, 'control');
+    expect(all['flutter-sdk-demo']!.value, isNotNull);
   });
 
   test('Should succesfully clear cache', () async {
     final experiment = Experiment.initialize(
-        apiKey: 'client-SyuVa4OF1vMBD5F59JMRwcZJutII4gZ2');
+        apiKey: 'client-TgXx6plnArNPL2ck4sKc6QtAJ8lbu8nQ');
 
-    await experiment.fetch(userId: 'testing');
+    await experiment.fetch(deviceId: 'testing');
     var all = experiment.all();
 
-    expect(all['testing-sdk']!.value, 'control');
+    expect(all['flutter-sdk-demo']!.value, isNotNull);
 
     experiment.clear();
     all = experiment.all();

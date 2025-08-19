@@ -44,4 +44,14 @@
 * Update dependencies and provide doc 
 
 ## v1.3.1
-* Update dependecies and dart format
+* Update dependencies and dart format
+
+## v1.4.0
+* Update dependencies 
+* Change SharedPreferences implementation to be compatible with last version
+* Fix tests credentials 
+
+## v1.4.1
+* Update dependencies 
+* Add context method in exposureTrackingProvider
+
